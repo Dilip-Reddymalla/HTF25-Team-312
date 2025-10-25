@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'analyzer',
 ]
 
 MIDDLEWARE = [
@@ -98,6 +99,19 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+# Cookie security
+SESSION_COOKIE_SECURE = True          # only over HTTPS (set to True in prod)
+CSRF_COOKIE_SECURE = True             # only over HTTPS
+SESSION_COOKIE_HTTPONLY = True        # prevent JS access
+CSRF_COOKIE_HTTPONLY = False          # CSRF cookie must be readable by browser JS? usually False
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # false allows persistent sessions; we control per-login via set_expiry
+
+# Lifetime
+SESSION_COOKIE_AGE = 21600  # 2 weeks in seconds (default)
+
+# Additional
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
 
 
 # Internationalization
@@ -115,11 +129,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'static'
-STATICFILES_DIR = [
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
     BASE_DIR / 'static'
-] 
+]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
 # Default primary key field type

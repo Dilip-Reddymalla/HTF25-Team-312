@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Resume Analyzer — History</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/history_style.css' %}">
+</head>
+
+<body>
+  <header>
+    <div class="nav-container">
+      <div class="logo">Smart Resume Analyzer</div>
+      <nav>
+        <a href="{% url 'dashboard' %}">Dashboard</a>
+        <a href="{% url 'analyze' %}">Analyze Resume</a>
+        <a href="{% url 'history' %}" class="active">History</a>
+        <a href="{% url 'profile' %}">Profile</a>
+      </nav>
+      <div style="display: flex; align-items: center;">
+        <span class="user-name">{{ request.user.get_full_name|default:request.user.username }}</span>
+        <a href="{% url 'logout' %}" class="btn">Logout</a>
+        <button class="toggle-mode" id="modeToggle">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="history-container">
+      <h1>Analysis History</h1>
+      {% if history_items %}
+      <div class="history-list">
+        {% for item in history_items %}
+        <div class="history-item">
+          <div class="history-header">
+            <h3>{{ item.filename }}</h3>
+            <span class="date">{{ item.date|date:"F j, Y" }}</span>
+          </div>
+          <div class="history-details">
+            <p><strong>Score:</strong> {{ item.score }}</p>
+            <p><strong>Skills:</strong> {{ item.skills|join:", " }}</p>
+            <p><strong>Recommendations:</strong> {{ item.recommendations }}</p>
+          </div>
+          <div class="history-actions">
+            <a href="{{ item.download_url }}" class="btn btn-secondary">Download Resume</a>
+            <a href="{{ item.analysis_url }}" class="btn">View Full Analysis</a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <p>No analysis history available yet.</p>
+        <a href="{% url 'analyze' %}" class="btn">Analyze Your First Resume</a>
+      </div>
+      {% endif %}
+    </div>
+  </main>
+
+  <script src="{% static 'js/dashboard.js' %}"></script>
+  <script src="{% static 'js/history_script.js' %}"></script>
+</body>
+
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Resume Analyzer — Analysis History</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="history_style.css">
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">Smart Resume</div>
+    <div class="header-controls">
+      <div class="user-profile">
+        <div class="avatar">JD</div>
+        <span>John Doe</span>
+      </div>
+      <button class="toggle-mode" id="modeToggle">🌙</button>
+      <button class="btn-logout" id="logoutBtn">Logout</button>
+    </div>
+  </header>
+
+  <main>
+    <h1>Analysis History</h1>
+    <p class="subtitle">Review your past resume analyses and suggestions.</p>
+
+    <div class="history-container" id="historyContainer">
+      <div class="history-card">
+        <div class="card-header">
+          <h3 class="job-title">Senior Software Engineer</h3>
+          <span class="analysis-date">Analyzed: Oct 26, 2025</span>
+        </div>
+        <div class="card-body">
+          <div class="match-score">
+            <span>Match Score</span>
+            <strong>82%</strong>
+          </div>
+          <div class="suggestions">
+            <h4>Suggestions:</h4>
+            <ul>
+              <li>Consider highlighting your experience with 'Agile' in your last role.</li>
+              <li>Add keywords: Project Management, Python.</li>
+              <li>Quantify achievements in the "XYZ Project" description.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p class="no-history" id="noHistoryMessage" style="display: none; text-align: center; color: var(--muted-dark);">
+        No analysis history found.</p>
+
+    </div>
+  </main>
+
+  <script src="history_script.js"></script>
+</body>
+
+</html>

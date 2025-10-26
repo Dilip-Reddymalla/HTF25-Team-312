@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Resume Analyzer — Analyze</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+
+<body>
+
+  <header>
+    <div class="nav-container">
+      <div class="logo">Smart Resume</div>
+      <nav>
+        <a href="{% url 'dashboard' %}">Dashboard</a>
+        <a href="{% url 'analyze' %}" class="active">Analyze</a>
+        <a href="{% url 'history' %}">History</a>
+        <a href="{% url 'profile' %}">Profile</a>
+      </nav>
+      <div style="display: flex; align-items: center;">
+        <span class="user-name">{{ request.user.get_full_name|default:request.user.username }}</span>
+        <a href="{% url 'logout' %}" class="btn">Logout</a>
+        <button class="toggle-mode" id="modeToggle">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="analyzer-section">
+      <h2 class="section-title">Analyze Your Resume</h2>
+
+      <form id="analyze-form" action="{% url 'upload_resume' %}" method="post" enctype="multipart/form-data"
+        class="analyzer-form">
+        {% csrf_token %}
+
+        <div class="form-card">
+          <h3 class="card-title">Your Resume *</h3>
+          <p class="card-sub">Please provide your resume either by uploading a file or pasting the text below.</p>
+
+          <div class="file-row">
+            <label class="upload-button" for="id_resume_file">
+              <input id="id_resume_file" name="resume_file" type="file" accept=".pdf,.doc,.docx"
+                class="file-input-hidden">
+              <span class="upload-icon">📁</span>
+              <span class="upload-text">Upload PDF</span>
+            </label>
+            <div class="file-name" id="selected-file">No file chosen</div>
+          </div>
+
+          <div class="or-divider">OR</div>
+
+          <label class="sr-only" for="id_job_description">Paste Job Description / Resume Text</label>
+          <textarea id="id_job_description" name="job_description" class="resume-textarea"
+            placeholder="Paste your job description or target role requirements here..."></textarea>
+        </div>
+
+        <div class="form-card">
+          <h3 class="card-title">Target Job Role *</h3>
+          <p class="card-sub">Enter the job title you're applying for</p>
+          <input id="id_target_role" name="target_role" type="text" class="input-field"
+            placeholder="e.g., Senior Software Engineer, Marketing Manager">
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="start-btn">Start Analysis</button>
+        </div>
+
+      </form>
+
+      <div id="analysis-area" class="analysis-area">
+        <!-- Placeholders for results (populated by analyzer.bundle.js) -->
+        <div class="result-card" id="result-card" style="display:none;">
+          <h3>Resume Score</h3>
+          <div class="score-large"><span id="score-value">0</span>/100</div>
+
+          <h4>Identified Skills</h4>
+          <div id="skills-list" class="skill-tags"></div>
+
+          <h4>Recommendations</h4>
+          <ul id="recommendations-list" class="recommendations"></ul>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="{% static 'js/dashboard.js' %}"></script>
+  <script src="{% static 'js/analyzer.bundle.js' %}"></script>
+</body>
+
+</html>

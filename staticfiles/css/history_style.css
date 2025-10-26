@@ -1,0 +1,289 @@
+:root {
+  --primary: #00e0b8;
+  --accent: #3be4c0;
+  --bg-dark: #0a0f1f;
+  --bg-light: #f8f9fb;
+  --card-dark: #10172a;
+  --card-light: #ffffff;
+  --text-dark: #f5f7fb;
+  --text-light: #0a0f1f;
+  --muted-dark: #9aa0b5;
+  --muted-light: #636a78;
+  --border-dark: rgba(255, 255, 255, 0.1);
+  --border-light: #e0e0e0;
+  --radius: 12px;
+  --max-width: 1000px; /* Wider max-width for history */
+  font-family: 'Inter', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg-dark);
+  color: var(--text-dark);
+  transition: background 0.4s ease, color 0.4s ease;
+  line-height: 1.6;
+}
+
+body.light-mode {
+  background: var(--bg-light);
+  color: var(--text-light);
+}
+
+header {
+  background: var(--card-dark);
+  border-bottom: 1px solid var(--border-dark);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.4s ease, border 0.4s ease;
+}
+
+body.light-mode header {
+  background: var(--card-light);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.4rem;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    color: var(--muted-dark);
+}
+
+body.light-mode .user-profile {
+    color: var(--muted-light);
+}
+
+.user-profile .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: #0a0f1f;
+}
+
+.toggle-mode {
+  background: none;
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.toggle-mode:hover { transform: rotate(15deg); }
+
+.btn-logout {
+    background: none;
+    border: 1px solid var(--muted-dark);
+    color: var(--muted-dark);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+body.light-mode .btn-logout {
+    border-color: var(--muted-light);
+    color: var(--muted-light);
+}
+
+main {
+  max-width: var(--max-width);
+  margin: 2rem auto;
+  padding: 0 2rem 4rem; /* Add padding at the bottom */
+}
+
+h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+p.subtitle {
+    text-align: center;
+    color: var(--muted-dark);
+    margin-bottom: 2.5rem;
+}
+
+body.light-mode p.subtitle {
+    color: var(--muted-light);
+}
+
+.history-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Space between cards */
+}
+
+.history-card {
+    background: var(--card-dark);
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius);
+    padding: 1.5rem 2rem;
+    width: 100%; /* Make card take full width */
+    transition: background 0.4s ease, border 0.4s ease;
+}
+
+body.light-mode .history-card {
+    background: var(--card-light);
+    border: 1px solid var(--border-light);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border-dark);
+}
+
+body.light-mode .card-header {
+    border-bottom: 1px solid var(--border-light);
+}
+
+.job-title {
+    color: var(--primary);
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.analysis-date {
+    font-size: 0.85rem;
+    color: var(--muted-dark);
+}
+
+body.light-mode .analysis-date {
+    color: var(--muted-light);
+}
+
+.card-body {
+    display: flex;
+    gap: 2rem; /* Space between score and suggestions */
+    align-items: flex-start; /* Align items to the top */
+}
+
+.match-score {
+    flex-shrink: 0; /* Prevent score box from shrinking */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(0, 224, 184, 0.1); /* Light accent background */
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+}
+
+.match-score span {
+    font-size: 0.9rem;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.match-score strong {
+    font-size: 1.8rem;
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.suggestions {
+    flex-grow: 1; /* Allow suggestions to take remaining space */
+}
+
+.suggestions h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--muted-dark);
+    margin-bottom: 0.5rem;
+}
+
+body.light-mode .suggestions h4 {
+    color: var(--muted-light);
+}
+
+
+.suggestions ul {
+    list-style: none; /* Remove default bullets */
+    padding-left: 0;
+}
+
+.suggestions li {
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+    position: relative;
+    padding-left: 1.25rem; /* Space for custom bullet */
+    color: var(--muted-dark);
+}
+
+body.light-mode .suggestions li {
+     color: var(--muted-light);
+}
+
+
+.suggestions li::before {
+    content: '•'; /* Custom bullet */
+    color: var(--accent);
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-weight: bold;
+}
+
+.no-history {
+    margin-top: 2rem;
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    main {
+        padding: 0 1rem 3rem;
+    }
+    h1 {
+        font-size: 1.75rem;
+    }
+    .card-body {
+        flex-direction: column; /* Stack score and suggestions */
+        gap: 1rem;
+    }
+    .match-score {
+        align-self: flex-start; /* Align score to the left */
+        padding: 0.75rem 1rem;
+    }
+    .match-score strong {
+        font-size: 1.5rem;
+    }
+}

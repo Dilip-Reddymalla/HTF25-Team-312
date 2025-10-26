@@ -11,6 +11,13 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+import sys
+
+# Allow oauthlib to use HTTP (only for local development). Move this here so
+# it runs when Django imports settings (not only when the file is executed
+# as a script).
+os.environ.setdefault('OAUTHLIB_INSECURE_TRANSPORT', '1')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,6 +34,18 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# --- Media Files (for uploads) ---
+# This is where Django will temporarily save the resume
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# --- Custom Settings for Your Script ---
+GEMINI_API_KEY = "AIzaSyBXiM...Your...Key...Here" # Use environment variables in production!
+
+# Add paths for your external tools
+POPPLER_PATH = r"C:\Users\Praval\Downloads\Release-25.07.0-0\poppler-25.07.0\Library\bin"
+TESSERACT_PATH = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+
 
 # Application definition
 
@@ -39,6 +58,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'analyzer',
+    'google_auth_oauthlib.flow', 
 ]
 
 MIDDLEWARE = [
@@ -56,7 +76,7 @@ ROOT_URLCONF = 'Resume_Analyzer.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [BASE_DIR/'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,9 +101,13 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
+
+# Redirect settings for authentication
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/dashboard/'
+LOGOUT_REDIRECT_URL = '/login/'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -140,3 +164,39 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Google OAuth settings
+
+# This is the full URL you added to the Google Console
+GOOGLE_REDIRECT_URI = "http://127.0.0.1:8000/auth/google/callback/"
+
+# This is the path to the JSON file you downloaded
+GOOGLE_CLIENT_SECRET_FILE = os.path.join(BASE_DIR, "client_secret.json")
+
+# These are the "scopes" you are requesting.
+# This is what Google will show on the consent screen.
+GOOGLE_OAUTH_SCOPES = [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "openid"
+]
+
+def main():
+    """Run administrative tasks."""
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myproject.settings')
+    try:
+        from django.core.management import execute_from_command_line
+    except ImportError as exc:
+        raise ImportError(
+            "Couldn't import Django. Are you sure it's installed and "
+            "available on your PYTHONPATH environment variable? Did you "
+            "forget to activate a virtual environment?"
+        ) from exc
+    execute_from_command_line(sys.argv)
+
+
+if __name__ == '__main__':
+    # Add this line right before main()
+    os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1' 
+    
+    main()

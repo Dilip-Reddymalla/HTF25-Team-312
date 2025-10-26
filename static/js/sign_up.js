@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function() {
-
   // Icon definitions
   const iconEyeOpen = `
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -109,41 +108,19 @@ document.addEventListener("DOMContentLoaded", function() {
     signupBtn.disabled = true;
     signupBtn.textContent = 'Creating Account...';
 
-    try {
-      // --- SIMULATION ---
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          // Simulate a failure for a specific email
-          if (emailInput.value.trim() === 'taken@example.com') {
-            reject(new Error('This email address is already taken.'));
-          } else {
-            resolve();
-          }
-        }, 1000);
-      });
-      // --- End of Simulation ---
-
-      alert('Account created successfully! Redirecting to login...');
-      // This will now work
-      window.location.href = 'login.html'; 
-
-    } catch (err) {
-      signupError.textContent = err.message || 'Something went wrong.';
-      signupError.style.display = 'block';
-    } finally {
-      signupBtn.disabled = false;
-      signupBtn.textContent = 'Create Account';
-    }
+    // Submit the form directly to Django
+    form.submit();
   });
 
-  // Social login placeholders
-  document.getElementById('googleBtn').addEventListener('click', () => {
-    alert("Simulating Google Sign-up...");
-    // window.location.href = '/auth/google';
-  });
-  document.getElementById('githubBtn').addEventListener('click', () => {
-    alert("Simulating GitHub Sign-up...");
-    // window.location.href = '/auth/github';
-  });
+ const googleBtn = document.getElementById('googleBtn');
+  if (googleBtn) {
+    googleBtn.addEventListener('click', () => {
+      const url = googleBtn.dataset.url || '/auth/google/login/';
+      console.log('Google button clicked. Redirecting to:', url);
+      window.location.href = url;
+    });
+  } else {
+    console.error('Google button not found in the document');
+  }
 
 });

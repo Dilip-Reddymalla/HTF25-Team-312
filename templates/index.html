@@ -1,0 +1,629 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Resume Analyzer — Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #00e0b8;
+      --accent: #3be4c0;
+      --bg-dark: #0a0f1f;
+      --bg-light: #f8f9fb;
+      --text-dark: #f5f7fb;
+      --text-light: #007a61;
+      /* A dark mint green */
+      --muted-dark: #9aa0b5;
+      --muted-light: #333;
+      /* Darker grey */
+      --radius: 12px;
+      --max-width: 1100px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    body.light-mode {
+      background: var(--bg-light);
+      color: var(--text-light);
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(10, 15, 31, 0.9);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      z-index: 1000;
+      transition: background 0.4s ease;
+    }
+
+    body.light-mode header {
+      background: rgba(255, 255, 255, 0.9);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.4rem;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    nav {
+      display: flex;
+      /* Ensure nav items align horizontally */
+      align-items: center;
+    }
+
+    nav a {
+      color: inherit;
+      text-decoration: none;
+      margin: 0 0.8rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    .btn {
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      color: #0a0f1f;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 224, 184, 0.25);
+    }
+
+    .toggle-mode {
+      background: none;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 1rem;
+      transition: transform 0.2s ease;
+    }
+
+    .toggle-mode:hover {
+      transform: rotate(15deg);
+    }
+
+    /* Dropdown Styles */
+    nav .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-toggle {
+      color: inherit;
+      text-decoration: none;
+      margin: 0 0.8rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .dropdown-toggle:hover {
+      color: var(--accent);
+    }
+
+    .dropdown-menu {
+      display: none;
+      /* Hidden by default */
+      position: absolute;
+      top: 150%;
+      /* Position below the toggle */
+      left: 0;
+      background: var(--bg-dark);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      min-width: 180px;
+      z-index: 2000;
+    }
+
+    .dropdown-menu.show {
+      display: block;
+      /* Shown with JS */
+    }
+
+    .dropdown-menu a {
+      color: var(--text-dark);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      margin: 0;
+      /* Reset margin for links inside dropdown */
+    }
+
+    .dropdown-menu a:hover {
+      background-color: rgba(255, 255, 255, 0.07);
+      color: var(--accent);
+    }
+
+    body.light-mode .dropdown-menu {
+      background: var(--bg-light);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    body.light-mode .dropdown-menu a {
+      color: var(--text-light);
+    }
+
+    body.light-mode .dropdown-menu a:hover {
+      background-color: rgba(0, 0, 0, 0.07);
+    }
+
+    /* Header Controls (Profile & Logout) */
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      /* Adjust spacing as needed */
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+      color: var(--muted-dark);
+      /* Color for dark mode */
+    }
+
+    body.light-mode .user-profile {
+      color: var(--muted-light);
+      /* Color for light mode */
+    }
+
+    .user-profile .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--accent);
+      /* Accent color for avatar background */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: #0a0f1f;
+      /* Dark text for initials */
+    }
+
+    .btn-logout {
+      background: none;
+      border: 1px solid var(--muted-dark);
+      color: var(--muted-dark);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-left: 0.5rem;
+      /* Space between toggle and logout */
+    }
+
+    .btn-logout:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    body.light-mode .btn-logout {
+      border-color: var(--muted-light);
+      color: var(--muted-light);
+    }
+
+    /* Ensure header controls are aligned correctly */
+    .nav-container>.header-controls {
+      margin-left: auto;
+      /* Pushes controls to the right */
+    }
+
+
+    /* Sections */
+    section {
+      padding: 6rem 2rem 4rem;
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 3rem;
+      margin-top: 6rem;
+      /* Added margin-top */
+    }
+
+    .hero-text {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .hero-text h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .hero-text p {
+      color: var(--muted-dark);
+      margin-bottom: 2rem;
+      max-width: 480px;
+    }
+
+    body.light-mode .hero-text p {
+      color: var(--muted-light);
+    }
+
+    .hero img {
+      flex: 1;
+      max-width: 420px;
+      border-radius: var(--radius);
+    }
+
+    .features h2,
+    .about h2,
+    .contact h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.04);
+      padding: 2rem;
+      border-radius: var(--radius);
+      text-align: center;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    body.light-mode .feature-card {
+      background: rgba(0, 0, 0, 0.04);
+    }
+
+    body.light-mode .feature-card:hover {
+      background: rgba(0, 0, 0, 0.07);
+    }
+
+    .feature-card h3 {
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+
+    .feature-card p {
+      color: var(--muted-dark);
+      font-size: 0.95rem;
+    }
+
+    body.light-mode .feature-card p {
+      color: var(--muted-light);
+    }
+
+    .about p {
+      max-width: 900px;
+      margin: 0 auto;
+      color: var(--muted-dark);
+      text-align: center;
+      font-size: 1rem;
+    }
+
+    body.light-mode .about p {
+      color: var(--muted-light);
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      color: var(--muted-dark);
+      margin-top: 1rem;
+    }
+
+    body.light-mode .contact-info {
+      color: var(--muted-light);
+    }
+
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted-dark);
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      margin-top: 3rem;
+      transition: color 0.3s ease;
+    }
+
+    body.light-mode footer {
+      color: var(--muted-light);
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    @media (max-width: 850px) {
+
+      /* Adjusted breakpoint */
+      nav {
+        display: none;
+      }
+
+      /* Hide full nav on smaller screens */
+      .header-controls {
+        margin-left: auto;
+        /* Push controls to right when nav hidden */
+      }
+
+      .hero {
+        text-align: center;
+      }
+
+      .hero-text h1 {
+        font-size: 2rem;
+      }
+
+      .hero img {
+        width: 100%;
+        max-width: 350px;
+        margin: 0 auto;
+      }
+
+      /* Center image */
+    }
+
+    @media (max-width: 768px) {
+      .user-profile span {
+        display: none;
+      }
+
+      .nav-container {
+        padding: 1rem;
+      }
+
+      .header-controls {
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="nav-container">
+      <div class="logo">Smart Resume Analyzer</div>
+
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#features">Features</a>
+
+        <div class="dropdown">
+          <a class="dropdown-toggle" id="tools-toggle">Tools ▼</a>
+          <div class="dropdown-menu" id="tools-menu">
+            <a href="{% url 'analyze' %}">Analyzer</a>
+            <a href="{% url 'profile' %}">Resume Builder</a>
+            <a href="{% url 'history' %}">History</a>
+          </div>
+        </div>
+
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="header-controls">
+        <div class="user-profile">
+          <div class="avatar"></div> <span class="user-name">{{ request.user.get_full_name|default:request.user.username }}</span>
+        </div>
+        <button class="toggle-mode" id="modeToggle">🌙</button>
+        <!-- Logout form: works without JS (progressive enhancement) -->
+        <form id="logoutForm" method="post" action="{% url 'logout' %}" style="display:inline; margin:0;">
+          {% csrf_token %}
+          <button type="submit" class="btn-logout">Logout</button>
+        </form>
+      </div>
+
+    </div>
+  </header>
+
+  <section id="home" class="hero">
+    <div class="hero-text">
+      <h1>Smart Resume Analyzer with Job Matching (Advanced)</h1>
+      <p>
+        Empower your career with AI-driven resume optimization. Our Smart Resume Analyzer helps you analyze your skills,
+        identify gaps, and connect with jobs that truly fit your profile.
+      </p>
+      <a href="{% url 'analyze' %}" class="btn">Analyze Now</a>
+    </div>
+    <img src="office_dude.png" alt="Professional walking with office bag and futuristic design">
+  </section>
+
+  <section id="features" class="features">
+    <h2>Key Features</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>🧠 AI-Powered Resume Analysis</h3>
+        <p>Upload your resume, and our AI evaluates it for structure, language, keywords, and overall professional
+          appeal.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🎯 Job Matching Engine</h3>
+        <p>Get matched with relevant job roles based on your skills, experience, and interests.</p>
+      </div>
+      <div class="feature-card">
+        <h3>📊 Skill Gap Detection</h3>
+        <p>Identify missing skills and receive personalized recommendations to enhance your job readiness.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🧩 Tailored Improvement Tips</h3>
+        <p>Get detailed insights and step-by-step guidance to make your resume stand out from the crowd.</p>
+      </div>
+      <div class="feature-card">
+        <h3>💼 Recruiter-Friendly Dashboard</h3>
+        <p>Helps recruiters quickly identify and shortlist top candidates using AI-based rankings.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="about">
+    <h2>About the Project</h2>
+    <p>
+      The Smart Resume Analyzer is designed to assist job seekers in optimizing their resumes and matching them to
+      relevant job opportunities. Users can upload resumes in PDF or text format, and the system analyzes them for
+      skills, experience, and gaps relative to specific job descriptions.
+      <br><br>
+      Using advanced AI algorithms, the platform provides detailed insights into strengths, weaknesses, and missing
+      skills while suggesting ways to improve alignment with target roles. This helps candidates craft tailored
+      applications, increasing their chances of landing interviews.
+      <br><br>
+      Additionally, it aids recruiters by allowing them to efficiently identify qualified candidates, streamlining the
+      recruitment process. The goal is to bridge the gap between job seekers and employers by leveraging AI for smarter,
+      data-driven hiring decisions.
+    </p>
+  </section>
+
+  <section id="contact" class="contact">
+    <h2>Contact Our Team</h2>
+    <div class="contact-info">
+      <p><strong>Team Leader:</strong> Dilip Reddymala</p>
+      <p><strong>Member 1:</strong> Rishikesh Reddy Arjula</p>
+      <p><strong>Member 2:</strong> Akshith Kumar Pathak</p>
+      <p><strong>Member 3:</strong> Dintakurthi Sohan</p>
+      <p><strong>Member 4:</strong> Praval Anachi</p>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 Smart Resume Analyzer | Designed by Team - 312
+  </footer>
+
+  <script>
+    // Wait for the HTML document to be fully loaded before running the script
+    document.addEventListener("DOMContentLoaded", function () {
+
+      // --- Theme Toggle ---
+      const toggle = document.getElementById('modeToggle');
+      if (toggle) { // Check if element exists
+        toggle.addEventListener('click', () => {
+          document.body.classList.toggle('light-mode');
+          toggle.textContent = document.body.classList.contains('light-mode') ? '☀️' : '🌙';
+        });
+      }
+
+      // --- Dropdown Menu ---
+      const toolsToggle = document.getElementById('tools-toggle');
+      const toolsMenu = document.getElementById('tools-menu');
+
+      if (toolsToggle && toolsMenu) { // Check if elements exist
+        toolsToggle.addEventListener('click', (event) => {
+          toolsMenu.classList.toggle('show');
+          event.stopPropagation();
+        });
+
+        window.addEventListener('click', (event) => {
+          if (toolsMenu.classList.contains('show') && !toolsMenu.contains(event.target) && event.target !== toolsToggle) {
+            toolsMenu.classList.remove('show');
+          }
+        });
+      }
+
+      // --- Logout enhancement: submit the logout form via fetch for a smoother UX ---
+      const logoutForm = document.getElementById('logoutForm');
+      if (logoutForm) {
+        logoutForm.addEventListener('submit', function (e) {
+          // Progressive enhancement: allow normal POST if JS disabled.
+          e.preventDefault();
+
+          if (!confirm('Are you sure you want to log out?')) return;
+
+          // Get CSRF token from the hidden input generated by {% csrf_token %}
+          const csrfInput = logoutForm.querySelector('input[name="csrfmiddlewaretoken"]');
+          const csrfToken = csrfInput ? csrfInput.value : null;
+
+          fetch(logoutForm.action, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+              'X-CSRFToken': csrfToken,
+              'Accept': 'application/json'
+            }
+          })
+            .then(response => {
+              if (response.ok) {
+                window.location.href = '/';
+              } else {
+                alert('Logout failed. Please try again.');
+              }
+            })
+            .catch(err => {
+              console.error('Logout error:', err);
+              alert('An error occurred while logging out.');
+            });
+        });
+      }
+
+    });
+  </script>
+</body>
+
+</html>

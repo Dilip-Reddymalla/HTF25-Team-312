@@ -1,0 +1,164 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Resume Analyzer — Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/profile_style.css' %}">
+</head>
+
+<body>
+  <header>
+    <div class="nav-container">
+      <div class="logo">Smart Resume Analyzer</div>
+      <nav>
+        <a href="{% url 'dashboard' %}">Dashboard</a>
+        <a href="{% url 'analyze' %}">Analyze Resume</a>
+        <a href="{% url 'history' %}">History</a>
+        <a href="{% url 'profile' %}" class="active">Profile</a>
+      </nav>
+      <div style="display: flex; align-items: center;">
+        <span class="user-name">{{ request.user.get_full_name|default:request.user.username }}</span>
+        <a href="{% url 'logout' %}" class="btn">Logout</a>
+        <button class="toggle-mode" id="modeToggle">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="profile-container">
+      <h1>Profile</h1>
+      <div class="profile-info">
+        <div class="info-group">
+          <label>Username</label>
+          <p>{{ request.user.username }}</p>
+        </div>
+        <div class="info-group">
+          <label>Email</label>
+          <p>{{ request.user.email }}</p>
+        </div>
+        <div class="info-group">
+          <label>Full Name</label>
+          <p>{{ request.user.get_full_name }}</p>
+        </div>
+        <div class="info-group">
+          <label>Date Joined</label>
+          <p>{{ request.user.date_joined|date:"F j, Y" }}</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="{% static 'js/dashboard.js' %}"></script>
+  <script src="{% static 'js/profile_script.js' %}"></script>
+</body>
+
+</html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart Resume Analyzer — Build Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="profile_style.css">
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">Smart Resume</div>
+    <div class="header-controls">
+      <div class="user-profile">
+        <div class="avatar">JD</div>
+        <span>John Doe</span>
+      </div>
+      <button class="toggle-mode" id="modeToggle">🌙</button>
+      <button class="btn-logout" id="logoutBtn">Logout</button>
+    </div>
+  </header>
+
+  <main>
+    <h1>Build Your Profile</h1>
+    <p class="subtitle">This information will be used to analyze and match your resume.</p>
+
+    <form id="profileForm">
+
+      <section class="form-section">
+        <h2>Basic Details</h2>
+        <div class="grid-col-2">
+          <div class="input-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" name="fullName" placeholder="John Doe">
+          </div>
+          <div class="input-group">
+            <label for="jobTitle">Professional Title</label>
+            <input type="text" id="jobTitle" name="jobTitle" placeholder="e.g., Software Engineer">
+          </div>
+        </div>
+        <div class="grid-col-2">
+          <div class="input-group">
+            <label for="mailId">Mail ID</label>
+            <input type="email" id="mailId" name="mailId" placeholder="you@example.com">
+          </div>
+          <div class="input-group">
+            <label for="linkedin">LinkedIn Profile *</label>
+            <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/..." required>
+          </div>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <h2>Skillset</h2>
+        <div class="input-group">
+          <label for="skillInput">Type a skill and press Enter</label>
+          <input type="text" id="skillInput" placeholder="e.g., Python, React, Project Management">
+          <div class="skill-container" id="skillContainer">
+          </div>
+        </div>
+      </section>
+
+      <section class="form-section">
+        <h2>Experience</h2>
+        <div id="experience-list">
+        </div>
+        <button type="button" class="btn-add" id="add-experience">+ Add Experience</button>
+      </section>
+
+      <section class="form-section">
+        <h2>Projects</h2>
+        <div id="project-list">
+        </div>
+        <button type="button" class="btn-add" id="add-project">+ Add Project</button>
+      </section>
+
+      <section class="form-section">
+        <h2>Certifications</h2>
+        <div id="certification-list">
+        </div>
+        <button type="button" class="btn-add" id="add-certification">+ Add Certification</button>
+      </section>
+
+      <section class="form-section">
+        <h2>Extracurricular Activities</h2>
+        <div id="activity-list">
+        </div>
+        <button type="button" class="btn-add" id="add-activity">+ Add Activity</button>
+      </section>
+
+      <div class="save-container">
+        <button type="submit" class="btn-save">Save Profile</button>
+      </div>
+
+    </form>
+  </main>
+
+  <script src="profile_script.js"></script>
+</body>
+
+</html>

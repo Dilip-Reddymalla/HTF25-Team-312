@@ -40,11 +40,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # --- Custom Settings for Your Script ---
-GEMINI_API_KEY = "AIzaSyBXiM...Your...Key...Here" # Use environment variables in production!
+GEMINI_API_KEY = "AIzaSyBXiMXfVhCpltP1_sGRZDDodoh_HjkwQr8" # Use environment variables in production!
 
 # Add paths for your external tools
-POPPLER_PATH = r"C:\Users\Praval\Downloads\Release-25.07.0-0\poppler-25.07.0\Library\bin"
-TESSERACT_PATH = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+
 
 
 # Application definition

@@ -357,3 +357,9 @@ body.light-mode .or-divider::after {
         margin-top: 0.5rem;
     }
 }
+.recommendations li {
+    font-size: 1rem; /* increase font size if needed */
+    line-height: 1.5;
+    word-wrap: break-word; /* allow wrapping for long sentences */
+    white-space: normal;   /* ensure long text wraps */
+}

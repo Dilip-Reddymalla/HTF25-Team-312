@@ -51,7 +51,7 @@
             <div class="file-name" id="selected-file">No file chosen</div>
           </div>
 
-          <div class="or-divider">OR</div>
+          <div class="or-divider">AND</div>
 
           <label class="sr-only" for="id_job_description">Paste Job Description / Resume Text</label>
           <textarea id="id_job_description" name="job_description" class="resume-textarea"
@@ -74,8 +74,8 @@
       <div id="analysis-area" class="analysis-area">
         <!-- Placeholders for results (populated by analyzer.bundle.js) -->
         <div class="result-card" id="result-card" style="display:none;">
-          <h3>Resume Score</h3>
-          <div class="score-large"><span id="score-value">0</span>/100</div>
+          <!-- <h3>Resume Score</h3>
+          <div class="score-large"><span id="score-value">0</span>/100</div> -->
 
           <h4>Identified Skills</h4>
           <div id="skills-list" class="skill-tags"></div>
@@ -88,7 +88,7 @@
     </section>
   </main>
 
-  <script src="{% static 'js/dashboard.js' %}"></script>
+  <script src="{% static 'js/analyzer.js' %}"></script>
   <script src="{% static 'js/analyzer.bundle.js' %}"></script>
 </body>
 

@@ -40,7 +40,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # --- Custom Settings for Your Script ---
-GEMINI_API_KEY = "AIzaSyBXiMXfVhCpltP1_sGRZDDodoh_HjkwQr8" # Use environment variables in production!
+GEMINI_API_KEY = "API_Key" # Use environment variables in production!
 
 # Add paths for your external tools
 
